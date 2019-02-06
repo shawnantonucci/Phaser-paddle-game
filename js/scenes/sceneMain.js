@@ -18,6 +18,7 @@ class SceneMain extends Phaser.Scene {
 
         let sb = new SoundButtons({scene :this});
 
+        this.velocity = 100;
         this.centerX = game.config.width / 2;
         this.centerY = game.config.height / 2;
         this.quarter = game.config.height / 4;
@@ -41,7 +42,7 @@ class SceneMain extends Phaser.Scene {
         //
         //
         //
-        this.ball.setVelocity(0, 100);
+        this.ball.setVelocity(0, this.velocity);
         this.paddle1.setImmovable();
         this.paddle2.setImmovable();
         this.physics.add.collider(this.ball, this.paddle1, this.ballHit, null, this);
@@ -50,7 +51,8 @@ class SceneMain extends Phaser.Scene {
 
     ballHit(ball, paddle)
     {
-        ball.alpha = .5;
+        this.velocity = -this.velocity;
+        ball.setVelocity(0, this.velocity);
     }
 
     update() {

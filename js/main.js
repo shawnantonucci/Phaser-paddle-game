@@ -25,7 +25,7 @@ window.onload = function() {
         }
     },
     backgroundColor: '#0DB34B',
-      scene: [SceneTitle, SceneMain, SceneOver]
+      scene: [SceneLoad, SceneTitle, SceneMain, SceneOver]
     };
   } else {
     var config = {
@@ -40,7 +40,7 @@ window.onload = function() {
         }
     },
     backgroundColor: '#0DB34B',
-      scene: [SceneTitle, SceneMain, SceneOver]
+      scene: [SceneLoad, SceneTitle, SceneMain, SceneOver]
     };
   }
 
