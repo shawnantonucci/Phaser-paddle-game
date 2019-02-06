@@ -7,6 +7,7 @@ class SceneMain extends Phaser.Scene {
         //load our images or sounds
         this.load.spritesheet('balls', "images/balls.png", { frameWidth: 100, frameHeight: 100 });
         this.load.spritesheet('paddles', "images/paddles.png", { frameWidth: 400, frameHeight: 50 });
+        this.load.image('bar', 'images/bar.jpg');
     }
     create() {
         //define our objects
@@ -21,6 +22,10 @@ class SceneMain extends Phaser.Scene {
         this.centerY = game.config.height / 2;
         this.quarter = game.config.height / 4;
 
+        this.bar = this.add.image(this.centerX, this.centerY, 'bar');
+        this.bar.displayWidth = game.config.width / 3;
+        this.bar.displayHeight = game.config.height;
+
         this.ball = this.physics.add.sprite(this.centerX, this.centerY, 'balls');
         Align.scaleToGameW(this.ball, .05);
         //
@@ -33,6 +38,14 @@ class SceneMain extends Phaser.Scene {
         //
         this.paddle2 = this.physics.add.sprite(this.centerX, this.quarter * 3, 'paddles');
         Align.scaleToGameW(this.paddle2, .25);
+        //
+        //
+        //
+        this.ball.setVelocity(0, 100);
+        this.paddle1.setImmovable();
+        this.paddle2.setImmovable();
+        this.physics.add.collider(this.ball, this.paddle1);
+        this.physics.add.collider(this.ball, this.paddle2);
     }
 
     update() {

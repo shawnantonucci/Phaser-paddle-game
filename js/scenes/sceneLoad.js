@@ -16,7 +16,7 @@ class SceneLoad extends Phaser.Scene {
         // this.load.audio('cat', ["audio/meow.mp3", "audio/meow.ogg"]);
         // this.load.audio('backgroundMusic', ["audio/random-race.mp3", "audio/random-race.ogg"]);
 
-        this.load.image("toggleBack", "images/ui/toggles/1.png");
+        this.load.image("toggleBack", "images/ui/toggles/3.png");
         this.load.image("sfxOff", "images/ui/icons/sfx_off.png");
         this.load.image("sfxOn", "images/ui/icons/sfx_on.png");
         this.load.image("musicOn", "images/ui/icons/music_on.png");
