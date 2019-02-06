@@ -20,6 +20,9 @@ class SceneMain extends Phaser.Scene {
         this.centerX = game.config.width / 2;
         this.centerY = game.config.height / 2;
 
+        this.ball = this.physics.add.sprite(this.centerX, this.centerY, 'balls');
+        Align.scaleToGameW(this.ball, .05);
+
     }
 
     update() {
