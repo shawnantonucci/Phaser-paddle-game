@@ -22,6 +22,7 @@ class SceneMain extends Phaser.Scene {
         this.centerX = game.config.width / 2;
         this.centerY = game.config.height / 2;
         this.quarter = game.config.height / 4;
+        this.pMove = game.config.height / 32;
 
         this.bar = this.add.image(this.centerX, this.centerY, 'bar');
         this.bar.displayWidth = game.config.width / 3;
@@ -48,6 +49,14 @@ class SceneMain extends Phaser.Scene {
         this.paddle2.setImmovable();
         this.physics.add.collider(this.ball, this.paddle1, this.ballHit, null, this);
         this.physics.add.collider(this.ball, this.paddle2, this.ballHit, null, this);
+        this.input.on('pointerdown', this.changePaddle, this);
+    }
+
+    changePaddle()
+    {
+        let paddle = (this.velocity > 0) ? this.paddle2 : this.paddle1;
+        let color = (paddle.frame.name == 1) ? 0 : 1;
+        paddle.setFrame(color);
     }
 
     setBallColor()
@@ -68,6 +77,17 @@ class SceneMain extends Phaser.Scene {
         this.velocity = -this.velocity;
         this.setBallColor();
         ball.setVelocity(0, this.velocity);
+        let targetY = 0;
+
+        if (paddle.y > this.centerY)
+        {
+           targetY = paddle.y - this.pMove;
+        }
+        else
+        {
+            targetY = paddle.y + this.pMove;
+        }
+        this.tweens.add({targets: paddle,duration: 1000,y:targetY});
     }
 
     update() {
