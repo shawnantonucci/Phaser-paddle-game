@@ -19,10 +19,20 @@ class SceneMain extends Phaser.Scene {
 
         this.centerX = game.config.width / 2;
         this.centerY = game.config.height / 2;
+        this.quarter = game.config.height / 4;
 
         this.ball = this.physics.add.sprite(this.centerX, this.centerY, 'balls');
         Align.scaleToGameW(this.ball, .05);
-
+        //
+        //
+        //
+        this.paddle1 = this.physics.add.sprite(this.centerX, this.quarter, 'paddles');
+        Align.scaleToGameW(this.paddle1, .25);
+        //
+        //
+        //
+        this.paddle2 = this.physics.add.sprite(this.centerX, this.quarter * 3, 'paddles');
+        Align.scaleToGameW(this.paddle2, .25);
     }
 
     update() {
