@@ -50,13 +50,27 @@ class SceneMain extends Phaser.Scene {
         this.physics.add.collider(this.ball, this.paddle1, this.ballHit, null, this);
         this.physics.add.collider(this.ball, this.paddle2, this.ballHit, null, this);
         this.input.on('pointerdown', this.changePaddle, this);
+        this.input.on('pointerup', this.onUp, this);
     }
 
-    changePaddle()
+    onUp(pointer)
+    {
+        let diffY = Math.abs(pointer.y - this.downY);
+        console.log(diffY);
+        if (diffY > 300)
+        {
+            this.tweens.add({targets: this.paddle1,duration: 1000,y:this.quarter});
+            this.tweens.add({targets: this.paddle2,duration: 1000,y:this.quarter * 3});
+        }
+    }
+
+    changePaddle(pointer)
     {
         let paddle = (this.velocity > 0) ? this.paddle2 : this.paddle1;
         let color = (paddle.frame.name == 1) ? 0 : 1;
         paddle.setFrame(color);
+
+        this.downY = pointer.y;
     }
 
     setBallColor()
