@@ -42,6 +42,7 @@ class SceneMain extends Phaser.Scene {
         //
         //
         //
+        this.setBallColor();
         this.ball.setVelocity(0, this.velocity);
         this.paddle1.setImmovable();
         this.paddle2.setImmovable();
@@ -49,9 +50,23 @@ class SceneMain extends Phaser.Scene {
         this.physics.add.collider(this.ball, this.paddle2, this.ballHit, null, this);
     }
 
+    setBallColor()
+    {
+        let r = Math.floor(Math.random() * 100);
+        if (r < 50)
+        {
+            this.ball.setFrame(0);
+        }
+        else
+        {
+            this.ball.setFrame(1);
+        }
+    }
+
     ballHit(ball, paddle)
     {
         this.velocity = -this.velocity;
+        this.setBallColor();
         ball.setVelocity(0, this.velocity);
     }
 
