@@ -44,8 +44,13 @@ class SceneMain extends Phaser.Scene {
         this.ball.setVelocity(0, 100);
         this.paddle1.setImmovable();
         this.paddle2.setImmovable();
-        this.physics.add.collider(this.ball, this.paddle1);
-        this.physics.add.collider(this.ball, this.paddle2);
+        this.physics.add.collider(this.ball, this.paddle1, this.ballHit, null, this);
+        this.physics.add.collider(this.ball, this.paddle2, this.ballHit, null, this);
+    }
+
+    ballHit(ball, paddle)
+    {
+        ball.alpha = .5;
     }
 
     update() {
