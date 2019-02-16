@@ -155,6 +155,7 @@ function (_Phaser$Scene) {
       //set up
       emitter = new Phaser.Events.EventEmitter();
       controller = new Controller();
+      model.score = 0;
       var mediaManager = new MediaManager({
         scene: this
       });
@@ -273,6 +274,18 @@ function (_Phaser$Scene) {
 
       if (ball.frame.name === paddle.frame.name) {
         console.log("points");
+        var points = 1;
+        var distY = Math.abs(this.paddle1.y - this.paddle2.y);
+
+        if (distY < game.config.height / 3) {
+          points = 2;
+        }
+
+        if (distY < game.config.height / 4) {
+          points = 3;
+        }
+
+        emitter.emit(G.UP_POINTS, points);
       } else {
         this.time.addEvent({
           delay: 1000,
