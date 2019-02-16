@@ -3,16 +3,7 @@ class SceneMain extends Phaser.Scene {
     super("SceneMain");
   }
   preload() {
-    //load our images or sounds
-    this.load.spritesheet("balls", "images/balls.png", {
-      frameWidth: 100,
-      frameHeight: 100
-    });
-    this.load.spritesheet("paddles", "images/paddles.png", {
-      frameWidth: 400,
-      frameHeight: 50
-    });
-    this.load.image("bar", "images/bar.jpg");
+
   }
   create() {
     //define our objects
@@ -115,6 +106,7 @@ class SceneMain extends Phaser.Scene {
     });
 
     this.downY = pointer.y;
+    emitter.emit(G.PLAY_SOUND, "flip");
   }
 
   onCompleteHandler(tween, targets, custom) {
@@ -139,22 +131,22 @@ class SceneMain extends Phaser.Scene {
 
   ballHit(ball, paddle) {
     this.velocity = -this.velocity;
-    if (ball.frame.name === paddle.frame.name) {
-      console.log("points");
-      var points = 1;
-      var distY = Math.abs(this.paddle1.y - this.paddle2.y);
+    this.velocity *= 1.01;
+    emitter.emit(G.PLAY_SOUND, "hit");
 
-      if (distY < game.config.height / 3)
-      {
+    var distY = Math.abs(this.paddle1.y - this.paddle2.y);
+    if (ball.frame.name === paddle.frame.name) {
+      var points = 1;
+
+      if (distY < game.config.height / 3) {
         points = 2;
       }
-      if (distY < game.config.height / 4)
-      {
+      if (distY < game.config.height / 4) {
         points = 3;
       }
       emitter.emit(G.UP_POINTS, points);
-
     } else {
+      emitter.emit(G.PLAY_SOUND, "lose");
       this.time.addEvent({
         delay: 1000,
         callback: this.doOver,
@@ -166,13 +158,14 @@ class SceneMain extends Phaser.Scene {
     this.setBallColor();
     ball.setVelocity(0, this.velocity);
     let targetY = 0;
-
-    if (paddle.y > this.centerY) {
-      targetY = paddle.y - this.pMove;
-    } else {
-      targetY = paddle.y + this.pMove;
+    if (distY > game.config.height / 5) {
+      if (paddle.y > this.centerY) {
+        targetY = paddle.y - this.pMove;
+      } else {
+        targetY = paddle.y + this.pMove;
+      }
+      this.tweens.add({ targets: paddle, duration: 1000, y: targetY });
     }
-    this.tweens.add({ targets: paddle, duration: 1000, y: targetY });
   }
 
   update() {

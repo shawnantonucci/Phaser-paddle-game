@@ -154,6 +154,7 @@ function (_Phaser$GameObjects$C) {
     _this.musicButton.x = _this.musicButton.width / 2;
     _this.sfxButton.x = game.config.width - _this.sfxButton.width / 2;
     _this.sfxButton.y = _this.musicButton.y;
+    _this.musicButton.visible = false;
 
     _this.scene.add.existing(_assertThisInitialized(_assertThisInitialized(_this)));
 

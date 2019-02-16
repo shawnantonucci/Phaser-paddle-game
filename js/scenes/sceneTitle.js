@@ -23,7 +23,15 @@ class SceneTitle extends Phaser.Scene {
 
         emitter.on('start_game', this.startGame, this);
 
-        this.scene.start('SceneMain');
+        // this.scene.start('SceneMain');
+
+        this.centerX = game.config.width / 2;
+        this.centerY = game.config.height / 2;
+        this.ball = this.physics.add.sprite(this.centerX, this.centerY, "balls");
+        this.ball.body.setBounce(0,1);
+        this.ball.body.setVelocity(0,100);
+        this.ball.body.collideWorldBounds = true;
+        Align.scaleToGameW(this.ball, 0.05);
     }
 
     startGame()

@@ -136,18 +136,7 @@ function (_Phaser$Scene) {
 
   _createClass(SceneMain, [{
     key: "preload",
-    value: function preload() {
-      //load our images or sounds
-      this.load.spritesheet("balls", "images/balls.png", {
-        frameWidth: 100,
-        frameHeight: 100
-      });
-      this.load.spritesheet("paddles", "images/paddles.png", {
-        frameWidth: 400,
-        frameHeight: 50
-      });
-      this.load.image("bar", "images/bar.jpg");
-    }
+    value: function preload() {}
   }, {
     key: "create",
     value: function create() {
@@ -242,6 +231,7 @@ function (_Phaser$Scene) {
         }]
       });
       this.downY = pointer.y;
+      emitter.emit(G.PLAY_SOUND, "flip");
     }
   }, {
     key: "onCompleteHandler",
@@ -271,11 +261,12 @@ function (_Phaser$Scene) {
     key: "ballHit",
     value: function ballHit(ball, paddle) {
       this.velocity = -this.velocity;
+      this.velocity *= 1.01;
+      emitter.emit(G.PLAY_SOUND, "hit");
+      var distY = Math.abs(this.paddle1.y - this.paddle2.y);
 
       if (ball.frame.name === paddle.frame.name) {
-        console.log("points");
         var points = 1;
-        var distY = Math.abs(this.paddle1.y - this.paddle2.y);
 
         if (distY < game.config.height / 3) {
           points = 2;
@@ -287,6 +278,7 @@ function (_Phaser$Scene) {
 
         emitter.emit(G.UP_POINTS, points);
       } else {
+        emitter.emit(G.PLAY_SOUND, "lose");
         this.time.addEvent({
           delay: 1000,
           callback: this.doOver,
@@ -300,17 +292,19 @@ function (_Phaser$Scene) {
       ball.setVelocity(0, this.velocity);
       var targetY = 0;
 
-      if (paddle.y > this.centerY) {
-        targetY = paddle.y - this.pMove;
-      } else {
-        targetY = paddle.y + this.pMove;
-      }
+      if (distY > game.config.height / 5) {
+        if (paddle.y > this.centerY) {
+          targetY = paddle.y - this.pMove;
+        } else {
+          targetY = paddle.y + this.pMove;
+        }
 
-      this.tweens.add({
-        targets: paddle,
-        duration: 1000,
-        y: targetY
-      });
+        this.tweens.add({
+          targets: paddle,
+          duration: 1000,
+          y: targetY
+        });
+      }
     }
   }, {
     key: "update",
