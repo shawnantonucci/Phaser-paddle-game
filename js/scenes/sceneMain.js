@@ -58,7 +58,7 @@ class SceneMain extends Phaser.Scene {
     //
     //
     var scoreBox = new ScoreBox({ scene: this });
-    this.aGrid = new AlignGrid({scene: this, rows:11,cols:11});
+    this.aGrid = new AlignGrid({ scene: this, rows: 11, cols: 11 });
     this.aGrid.placeAtIndex(5, scoreBox);
     // this.aGrid.showNumbers();
     //
@@ -121,7 +121,6 @@ class SceneMain extends Phaser.Scene {
     paddle.scaleX = custom.scope.pScale;
     let color = paddle.frame.name == 1 ? 0 : 1;
     paddle.setFrame(color);
-
   }
 
   setBallColor() {
@@ -133,8 +132,23 @@ class SceneMain extends Phaser.Scene {
     }
   }
 
+  doOver() {
+    this.scene.start("SceneOver");
+  }
+
   ballHit(ball, paddle) {
     this.velocity = -this.velocity;
+    if (ball.frame.name === paddle.frame.name) {
+      console.log("points");
+    } else {
+      this.time.addEvent({
+        delay: 1000,
+        callback: this.doOver,
+        callbackScope: this,
+        loop: false
+      });
+      return;
+    }
     this.setBallColor();
     ball.setVelocity(0, this.velocity);
     let targetY = 0;

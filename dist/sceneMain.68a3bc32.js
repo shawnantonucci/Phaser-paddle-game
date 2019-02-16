@@ -262,9 +262,27 @@ function (_Phaser$Scene) {
       }
     }
   }, {
+    key: "doOver",
+    value: function doOver() {
+      this.scene.start("SceneOver");
+    }
+  }, {
     key: "ballHit",
     value: function ballHit(ball, paddle) {
       this.velocity = -this.velocity;
+
+      if (ball.frame.name === paddle.frame.name) {
+        console.log("points");
+      } else {
+        this.time.addEvent({
+          delay: 1000,
+          callback: this.doOver,
+          callbackScope: this,
+          loop: false
+        });
+        return;
+      }
+
       this.setBallColor();
       ball.setVelocity(0, this.velocity);
       var targetY = 0;
