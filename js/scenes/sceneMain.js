@@ -57,6 +57,13 @@ class SceneMain extends Phaser.Scene {
     //
     //
     //
+    var scoreBox = new ScoreBox({ scene: this });
+    this.aGrid = new AlignGrid({scene: this, rows:11,cols:11});
+    this.aGrid.placeAtIndex(5, scoreBox);
+    // this.aGrid.showNumbers();
+    //
+    //
+    //
     this.setBallColor();
     this.ball.setVelocity(0, this.velocity);
     this.paddle1.setImmovable();
